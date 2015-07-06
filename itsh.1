@@ -1,0 +1,105 @@
+.TH ITSH 1 "21 August 2014" "Linux" "ITEE Shell"
+
+.SH NAME
+.B itsh
+- The ITEE Shell
+
+.SH SYNOPSIS
+.B itsh
+.RI [ file ]
+
+.SH DESCRIPTION
+.B itsh
+is a command line interpreter that can execute commands read from a terminal or from a file.
+
+.SH OPTIONS
+.TP
+.IR file 
+A file containing shell commands to be executed as a batch.
+
+.SH EXIT STATUS
+.TP
+0
+On successful exit. Status if
+.I exit
+command used or
+.I EOF
+encountered.
+
+.TP
+1
+Unable to open file (if supplied).
+
+.SH ENVIRONMENT
+.B PATH
+.RS
+Used to locate programs to execute if a command entered is not a built-in command.
+.RE
+.B HOME
+.RS
+Used when changing directory as a default if no arguments specified.
+.RE
+
+.SH FILES
+.I /usr/bin/itsh
+.RS
+The
+.B itsh
+executable.
+.RE
+
+.SH NOTES
+Lines beginning with
+.RI ' # '
+are considered comments and are ignored. If a line contains a
+.RI ' # '
+but it isn't the first character in the line, it is not considered a comment and will be assumed to be part of the command.
+.PP
+.B "BUILT-IN COMMANDS"
+.br
+A command has a maximum character length of 256 and maximum argument count of 20 (for each command if two are piped). If either if these values are exceeded, the command is ignored.
+.TP
+.I cd
+Change directory to directory specified in the first argument. If no directory is specified then the directory will be change to the home directory specified by the 
+.I HOME
+environment variable.
+.TP
+.I exit
+Close the shell.
+
+.SH BUGS
+A number of error messages are not being displayed. There are no error messages if 
+.I cd
+cannot find a directory. If a file can't be found for IO redirection, no error message is displayed.
+
+If a command with IO redirection fails, in the case of output redirection, a file is created even though the command failed and should be aborted.
+
+Commands in a pipe may continue to execute even though the first half failed. The entire command should be aborted.
+
+.SH EXAMPLE
+An interactive shell can be run by
+.RS
+
+itsh
+
+.RE
+The simplest way to run a file containing shell commands is the following
+.RS
+
+itsh example_file
+
+.RE
+
+Once running, a command can be executed by a newline. The following is an example of running cd with no arguments from the root directory. Once entered, the current directory should change to the directory specied by the
+.I HOME
+environment variable.
+.RS
+
+itsh:/# cd
+.br
+itsh:/home/example# 
+
+.RE
+
+.SH SEE ALSO
+.BR bash (1)
